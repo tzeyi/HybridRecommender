@@ -23,6 +23,7 @@ CREATE TABLE IF NOT EXISTS users (
     user_id SERIAL PRIMARY KEY,
     user_name VARCHAR(100) NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
+    topics topic[] DEFAULT '{}',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -31,9 +32,10 @@ CREATE TABLE IF NOT EXISTS questions (
     question_id SERIAL PRIMARY KEY,
     question_text TEXT NOT NULL,
     answer_text TEXT NOT NULL,
-    company_id INTEGER REFERENCES companies(company_id),
+    topics topic[] DEFAULT '{}',
     difficulty_level VARCHAR(20) CHECK (difficulty_level IN ('easy', 'medium', 'hard')),
-    vector vector(1024) DEFAULT NULL,  -- Todo: CRON Job to update this periodically
+    company_id INTEGER REFERENCES companies(company_id),
+    vector vector(56) DEFAULT NULL,  -- Todo: CRON Job to update this periodically
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
